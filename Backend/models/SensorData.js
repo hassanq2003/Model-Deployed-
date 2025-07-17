@@ -20,6 +20,6 @@ const machineSchema = new mongoose.Schema({
 const sensorDataSchema = new mongoose.Schema({
   rooms:    { type: [roomSchema],    default: [] },
   machines: { type: [machineSchema], default: [] }
-}, { timestamps: true });
+}, { timestamps: true,collection:'SensorData' });
 
 module.exports = mongoose.model('SensorData', sensorDataSchema);

@@ -13,7 +13,6 @@ var transactionsRouter = require('./routes/transactions')
 const toggleRouter = require('./routes/toggle');
 var dataRouter = require('./routes/data');
 
-
 var app = express();
 
 mongoose.connect(process.env.MONGO_URI, {

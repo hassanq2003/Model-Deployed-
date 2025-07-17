@@ -22,20 +22,34 @@ router.get('/all', authenticateToken, async (req, res) => {
       Warehouse.findOne().lean()
     ]);
 
-    const staticRooms   = staticDoc?.rooms   || [];
-    const sensorRooms   = sensorDoc?.rooms   || [];
+    const staticRooms    = staticDoc?.rooms    || [];
+    const sensorRooms    = sensorDoc?.rooms    || [];
     const staticMachines = staticDoc?.machines || [];
     const sensorMachines = sensorDoc?.machines || [];
 
-    // Combine rooms by matching name
-    const rooms = sensorRooms.map(sr => {
-      const st = staticRooms.find(r => r.name === sr.name) || {};
+    // Combine rooms by iterating staticRooms
+    const rooms = staticRooms.map(st => {
+      const sr = sensorRooms.find(r => r.name === st.name) || {};
       return mergeProps(st, sr);
     });
 
-    // Combine machines by matching name
-    const machines = sensorMachines.map(sd => {
-      const st = staticMachines.find(m => m.name === sd.name) || {};
+    // Combine machines by iterating staticMachines
+    const machines = staticMachines.map(st => {
+      const sd = sensorMachines.find(m => m.name === st.name) || {};
+
+      if (st.power === false) {
+        // If machine is off, sensor values zero and maintenance 'Unavailable'
+        return {
+          ...st,
+          temperature: 0,
+          vibration: 0,
+          power_usage: 0,
+          noise_level: 0,
+          maintenance: 'Unavailable'
+        };
+      }
+
+      // Machine is on: merge real sensor data
       return mergeProps(st, sd);
     });
 
@@ -62,8 +76,8 @@ router.get('/rooms', authenticateToken, async (req, res) => {
     const staticRooms = staticDoc?.rooms || [];
     const sensorRooms = sensorDoc?.rooms || [];
 
-    const rooms = sensorRooms.map(sr => {
-      const st = staticRooms.find(r => r.name === sr.name) || {};
+    const rooms = staticRooms.map(st => {
+      const sr = sensorRooms.find(r => r.name === st.name) || {};
       return mergeProps(st, sr);
     });
 
@@ -86,8 +100,22 @@ router.get('/machines', authenticateToken, async (req, res) => {
     const staticMachines = staticDoc?.machines || [];
     const sensorMachines = sensorDoc?.machines || [];
 
-    const machines = sensorMachines.map(sd => {
-      const st = staticMachines.find(m => m.name === sd.name) || {};
+    const machines = staticMachines.map(st => {
+      const sd = sensorMachines.find(m => m.name === st.name) || {};
+
+      if (st.power === false) {
+        // If machine is off, sensor values zero and maintenance 'Unavailable'
+        return {
+          ...st,
+          temperature: 0,
+          vibration: 0,
+          power_usage: 0,
+          noise_level: 0,
+          maintenance: 'Unavailable'
+        };
+      }
+
+      // Machine is on: merge real sensor data
       return mergeProps(st, sd);
     });
 
@@ -97,6 +125,7 @@ router.get('/machines', authenticateToken, async (req, res) => {
     res.status(500).send('Error fetching machines data');
   }
 });
+
 
 // GET /data/warehouse
 // Returns just the cartons count
