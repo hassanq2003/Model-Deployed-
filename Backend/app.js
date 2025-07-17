@@ -11,6 +11,8 @@ var authRouter = require('./routes/auth');
 var sensorDataRouter = require('./routes/sensorData');
 var transactionsRouter = require('./routes/transactions')
 const toggleRouter = require('./routes/toggle');
+var dataRouter = require('./routes/data');
+
 
 var app = express();
 
@@ -30,6 +32,7 @@ app.use('/auth', authRouter);
 app.use('/sensorData', sensorDataRouter);
 app.use('/tx',transactionsRouter)
 app.use('/toggle', toggleRouter);
+app.use('/data',dataRouter);
 
 
 module.exports = app;
