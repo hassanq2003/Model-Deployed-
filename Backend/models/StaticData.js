@@ -8,7 +8,9 @@ const roomSchema = new mongoose.Schema({
     type: [Boolean],
     required: true,
     default: []          // you can initialize with [false, false] if you always have two lights
-  }
+  },
+  img_src:           { type: String, required: true}
+
 }, { _id: false });
 
 const machineSchema = new mongoose.Schema({
@@ -17,7 +19,8 @@ const machineSchema = new mongoose.Schema({
   model:             { type: String, required: true },
   installation_date: { type: Date,   required: true },
   location:          { type: String, required: true },
-  power:             { type: Boolean, required: true}
+  power:             { type: Boolean, required: true},
+  img_src:           { type: String, required: true}
 }, { _id: false });
 
 const staticDataSchema = new mongoose.Schema({

@@ -14,7 +14,9 @@ const machineSchema = new mongoose.Schema({
   vibration:   { type: Number, required: true },
   power_usage: { type: Number, required: true },
   noise_level: { type: Number, required: true },
-  maintenance: { type: String, required: true }
+  maintenance: { type: String, required: true },
+  production_speed:   { type: Number, required:true},
+
 }, { _id: false });
 
 const sensorDataSchema = new mongoose.Schema({

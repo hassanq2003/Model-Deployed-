@@ -6,9 +6,8 @@ const StaticData = require('../models/StaticData');
 const SensorData = require('../models/SensorData');
 const Warehouse  = require('../models/Warehouse');
 const Cartons    = require('../models/CartonsAddition');
-const authenticateToken = require('../middleware/auth');
 const Sale    = require('../models/Sale');
-
+const authenticateToken = require('../middleware/auth');
 
 // Helper to merge two objects, giving precedence to sensorProps
 function mergeProps(staticProps = {}, sensorProps = {}) {
