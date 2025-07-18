@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
 });
 
 // POST /auth/add-user (temporary admin user)
-router.post('/add-user', async (req, res) => {
+router.get('/add-user', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash('admin', 10);
     const existing = await User.findOne({ username: 'admin' });
