@@ -16,7 +16,7 @@ function mergeProps(staticProps = {}, sensorProps = {}) {
 
 // GET /data/all
 // Returns combined rooms, machines, and cartons_num
-router.get('/all', authenticateToken, async (req, res) => {
+router.get('/all', /*authenticateToken*/, async (req, res) => {
   try {
     const [staticDoc, sensorDoc, wh] = await Promise.all([
       StaticData.findOne().lean(),
